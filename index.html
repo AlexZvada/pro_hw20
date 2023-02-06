@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const promise1 = Promise.resolve(123);
+        const promise2 = new Promise((resolve, reject) => setTimeout(reject, 100, 'FALSE'));
+        const promises = [promise1, promise2];
+
+        function allSettle(promises) {
+            let results = promises.map(p => Promise.resolve(p)
+                .then(
+                    (value) => ({ status: 'fulfilled', value: value }),
+                    (error) => ({ status: 'rejected', reason: error })));
+            return Promise.all(results);
+        }
+
+        allSettle(promises).then((result) => console.log(result));
+    </script>
+</body>
+
+</html>
